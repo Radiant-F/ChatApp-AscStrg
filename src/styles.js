@@ -152,6 +152,7 @@ export default StyleSheet.create({
     height: '100%',
   },
   kanan: {
+    marginVertical: 5,
     backgroundColor: '#fff',
     flexDirection: 'row',
     alignSelf: 'flex-end',
@@ -170,6 +171,7 @@ export default StyleSheet.create({
     padding: 20,
     elevation: 5,
     borderRadius: 10,
+    marginVertical: 5,
   },
 
   footerView: {

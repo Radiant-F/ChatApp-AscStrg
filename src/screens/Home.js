@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
@@ -10,6 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import styles from '../styles';
 
@@ -20,7 +21,7 @@ import derp from '../assets/derp.jpg';
 import pencil from '../assets/pencil.png';
 import closeModal from '../assets/cancel-button.png';
 
-export class Home extends Component {
+export class Home extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -54,7 +55,7 @@ export class Home extends Component {
   }
 
   saveData() {
-    console.log('save data home ' + this.state.data);
+    console.log('save data home: ' + this.state.data);
     AsyncStorage.setItem('data', JSON.stringify(this.state.data)).catch((err) =>
       console.log(err),
     );
@@ -69,10 +70,10 @@ export class Home extends Component {
     if (this.state.name != '') {
       const {name, data} = this.state;
       let newData = [name, ...data];
-      this.setState({data: newData}, function () {
+      this.setState({data: [...newData]}, function () {
         this.saveData();
         this.setModal();
-        console.log('data setelah add = ' + this.state.data);
+        console.log('data setelah add: ' + this.state.data);
       });
     } else {
       alert('Isi nama dengan benar!');
@@ -81,19 +82,12 @@ export class Home extends Component {
   }
 
   deleteData(index) {
-    console.log(index);
-    const {data} = this.state;
-    let result = data.filter((value, id) => id !== index);
-    console.log('result filter = ' + result);
-    this.setState(
-      {
-        data: result,
-      },
-      function () {
-        this.saveData();
-      },
-    );
-    this.setModal();
+    let filtered = this.state.data.filter((v, i) => i != index);
+    this.setState({data: filtered}, function () {
+      this.saveData();
+    });
+    // this.setModal();
+    // alert(index);
   }
 
   // handleChoosePhoto = () => {
@@ -107,13 +101,33 @@ export class Home extends Component {
   //   });
   // };
 
+  alertDelete(index) {
+    Alert.alert(
+      'Opsi Kontak',
+      'Hapus pesan?',
+      [
+        {
+          text: 'Batal',
+          onPress: () => console.log('Cancel Pressed'),
+        },
+        {text: 'Hapus', onPress: () => this.deleteData(index)},
+      ],
+      {cancelable: false},
+    );
+  }
+
+  newDate() {
+    var tanggal = new Date();
+    return tanggal.getMinutes();
+  }
+
   render() {
     return (
       <View style={styles.mainView}>
         <View style={styles.header}>
           <Image source={chat} style={styles.headerImage} />
           <Text style={styles.headerText}> Chat </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.newDate()}>
             <Image source={search} style={styles.headerSearch} />
           </TouchableOpacity>
         </View>
@@ -122,29 +136,7 @@ export class Home extends Component {
             {this.state.data.map((value, index) => {
               return (
                 <View style={styles.chat} key={index}>
-                  <TouchableOpacity>
-                    <Image source={derp} style={styles.chatImage} />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.textChat}
-                    onPress={() =>
-                      this.props.navigation.navigate(
-                        'Chat',
-                        this.props.route.params,
-                      )
-                    }
-                    onLongPress={() => {
-                      this.setState({modalChat: true});
-                      console.log(index);
-                    }}>
-                    <View style={styles.contactView}>
-                      <Text style={styles.contactName}>{index}</Text>
-                      <Text style={styles.contactLastSeen}>last seen</Text>
-                    </View>
-                    <Text>pesan terakhir</Text>
-                  </TouchableOpacity>
-                  {/* MODAL CONTACT OPTION */}
-                  <Modal
+                  {/* <Modal
                     visible={this.state.modalChat}
                     animationType="fade"
                     transparent={true}>
@@ -158,13 +150,37 @@ export class Home extends Component {
                           />
                         </TouchableOpacity>
                       </View>
+                      <Text>{value}</Text>
                       <TouchableOpacity
                         style={styles.buttonAdd}
+                        onLongPress={() => console.log(index)}
                         onPress={() => this.deleteData(index)}>
                         <Text style={styles.buttonText}>Hapus</Text>
                       </TouchableOpacity>
                     </View>
-                  </Modal>
+                  </Modal> */}
+                  <TouchableOpacity>
+                    <Image source={derp} style={styles.chatImage} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.textChat}
+                    onPress={() =>
+                      this.props.navigation.navigate('Chat', value)
+                    }
+                    onLongPress={() => {
+                      this.alertDelete(index);
+                      console.log(index);
+                    }}>
+                    <View style={styles.contactView}>
+                      <Text style={styles.contactName}>{value}</Text>
+                      <Text style={styles.contactLastSeen}>
+                        {this.newDate()}
+                      </Text>
+                    </View>
+                    <Text>pesan terakhir</Text>
+                  </TouchableOpacity>
+                  {/* MODAL CONTACT OPTION */}
+
                   {/* END OF MODAL */}
                 </View>
               );

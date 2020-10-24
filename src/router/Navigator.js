@@ -17,6 +17,7 @@ const Navigator = () => {
       <Stack.Navigator headerMode={false}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Drawer} />
+        <Stack.Screen name="HomeOri" component={Home} />
         <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="NewMessage" component={NewMessage} />
       </Stack.Navigator>

@@ -32,10 +32,14 @@ export class Chat extends Component {
   }
 
   sendData() {
-    let newData = {text: this.state.chatMessage, sender: this.state.user};
+    let newData = {
+      text: this.state.chatMessage,
+      sender: this.props.route.params.user,
+    };
     let data = [newData, ...this.state.chatMessages];
     this.setState({chatMessages: [...data]}, function () {
       this.saveData();
+      this.setState({chatMessage: ''});
     });
   }
 
@@ -48,21 +52,22 @@ export class Chat extends Component {
 
   saveData() {
     AsyncStorage.setItem(
-      'data',
+      'pesan',
       JSON.stringify(this.state.chatMessages),
     ).catch((err) => console.log(err));
     console.log(this.state.chatMessages);
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('data').then((response) => {
+    AsyncStorage.getItem('pesan').then((response) => {
       if (response != null) {
         this.setState({chatMessages: JSON.parse(response)});
         console.log(response);
       } else {
-        alert('Reeee');
+        console.log('Tidak ada pesan yang tersimpan.');
       }
     });
+    console.log(this.props.route.params);
   }
 
   render() {
@@ -76,7 +81,9 @@ export class Chat extends Component {
             <TouchableOpacity style={styles.headerTextMain}>
               <Image source={derp} style={styles.headerImageChat} />
               <View>
-                <Text style={styles.headerTextChat}> Nama Kontak </Text>
+                <Text style={styles.headerTextChat}>
+                  {this.props.route.params}
+                </Text>
                 <Text style={styles.headerStatus}>Status</Text>
               </View>
             </TouchableOpacity>
@@ -89,6 +96,7 @@ export class Chat extends Component {
               <Image source={attach} style={styles.footerImg} />
             </TouchableOpacity>
             <TextInput
+              value={this.state.chatMessage}
               placeholder="Pesan"
               style={styles.footerInput}
               onChangeText={(input) => this.setState({chatMessage: input})}
@@ -104,7 +112,7 @@ export class Chat extends Component {
             contentContainerStyle={{paddingBottom: 50}}
             style={{padding: 10, marginBottom: 50}}>
             {this.state.chatMessages.map((value, index) => {
-              if (index % 2 == 0) {
+              if (value.sender == this.props.route.params.user) {
                 return (
                   <TouchableOpacity
                     onPress={() => this.deleteData(index)}

@@ -39,13 +39,13 @@ export class Login extends Component {
       this.state.pass == this.state.passAdmin
     ) {
       alert('Selamat Datang, ' + this.state.admin + '.');
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate('HomeOri', {user: this.state.admin});
     } else if (
       this.state.name == this.state.user &&
       this.state.pass == this.state.passUser
     ) {
       alert('Selamat Datang, ' + this.state.user + '.');
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate('HomeOri', {user: this.state.user});
     } else {
       alert('Masukan data dengan benar.');
     }
@@ -78,7 +78,10 @@ export class Login extends Component {
                 onChangeText={(pass) => this.setState({pass: pass})}
               />
             </View>
-            <TouchableOpacity onPress={() => this.justLogin()}>
+            <TouchableOpacity
+              onPress={() => {
+                this.login();
+              }}>
               <View style={styles.textViewLogin}>
                 <Text style={styles.textLogin}>Login</Text>
               </View>
