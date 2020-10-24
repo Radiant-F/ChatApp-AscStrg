@@ -165,7 +165,10 @@ export class Home extends PureComponent {
                   <TouchableOpacity
                     style={styles.textChat}
                     onPress={() =>
-                      this.props.navigation.navigate('Chat', value)
+                      this.props.navigation.navigate('Chat', {
+                        value: value,
+                        sender: this.props.route.params.user,
+                      })
                     }
                     onLongPress={() => {
                       this.alertDelete(index);

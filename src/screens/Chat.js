@@ -34,9 +34,9 @@ export class Chat extends Component {
   sendData() {
     let newData = {
       text: this.state.chatMessage,
-      sender: this.props.route.params.user,
+      sender: this.props.route.params.sender,
     };
-    let data = [newData, ...this.state.chatMessages];
+    let data = [...this.state.chatMessages, newData];
     this.setState({chatMessages: [...data]}, function () {
       this.saveData();
       this.setState({chatMessage: ''});
@@ -67,7 +67,7 @@ export class Chat extends Component {
         console.log('Tidak ada pesan yang tersimpan.');
       }
     });
-    console.log(this.props.route.params);
+    console.log('Chat komponen did mount ' + this.props.route.params);
   }
 
   render() {
@@ -82,7 +82,7 @@ export class Chat extends Component {
               <Image source={derp} style={styles.headerImageChat} />
               <View>
                 <Text style={styles.headerTextChat}>
-                  {this.props.route.params}
+                  {this.props.route.params.value}
                 </Text>
                 <Text style={styles.headerStatus}>Status</Text>
               </View>
@@ -112,7 +112,7 @@ export class Chat extends Component {
             contentContainerStyle={{paddingBottom: 50}}
             style={{padding: 10, marginBottom: 50}}>
             {this.state.chatMessages.map((value, index) => {
-              if (value.sender == this.props.route.params.user) {
+              if (value.sender == this.props.route.params.sender) {
                 return (
                   <TouchableOpacity
                     onPress={() => this.deleteData(index)}
@@ -123,7 +123,7 @@ export class Chat extends Component {
                     </Text>
                   </TouchableOpacity>
                 );
-              } else {
+              } else if (value.sender == this.props.route.params.value) {
                 return (
                   <TouchableOpacity
                     onPress={() => this.deleteData(index)}

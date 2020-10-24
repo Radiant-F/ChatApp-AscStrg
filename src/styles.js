@@ -132,6 +132,7 @@ export default StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 42 / 2,
+    marginRight: 15,
   },
   headerTextChat: {
     fontWeight: 'bold',
@@ -144,8 +145,8 @@ export default StyleSheet.create({
     tintColor: '#fff',
   },
   headerStatus: {
-    color: '#fff',
-    left: 5,
+    color: '#ffffffc7',
+    fontSize: 13,
   },
   bg: {
     width: '100%',

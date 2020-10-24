@@ -40,14 +40,20 @@ export class Login extends Component {
     ) {
       alert('Selamat Datang, ' + this.state.admin + '.');
       this.props.navigation.navigate('HomeOri', {user: this.state.admin});
+      // this.setState({name: ''});
+      // this.setState({pass: ''});
     } else if (
       this.state.name == this.state.user &&
       this.state.pass == this.state.passUser
     ) {
       alert('Selamat Datang, ' + this.state.user + '.');
       this.props.navigation.navigate('HomeOri', {user: this.state.user});
+      // this.setState({name: ''});
+      // this.setState({pass: ''});
     } else {
       alert('Masukan data dengan benar.');
+      // this.setState({name: ''});
+      // this.setState({pass: ''});
     }
   }
 
