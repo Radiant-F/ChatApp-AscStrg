@@ -35,7 +35,7 @@ export class Home extends PureComponent {
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('data')
+    AsyncStorage.getItem('dataAdmin')
       .then((response) => {
         if (response != null) {
           const savedData = JSON.parse(response);
@@ -56,9 +56,10 @@ export class Home extends PureComponent {
 
   saveData() {
     console.log('save data home: ' + this.state.data);
-    AsyncStorage.setItem('data', JSON.stringify(this.state.data)).catch((err) =>
-      console.log(err),
-    );
+    AsyncStorage.setItem(
+      'dataAdmin',
+      JSON.stringify(this.state.data),
+    ).catch((err) => console.log(err));
   }
 
   setModal() {
@@ -67,7 +68,7 @@ export class Home extends PureComponent {
   }
 
   addData() {
-    if (this.state.name != '') {
+    if (this.state.name == 'Fadil') {
       const {name, data} = this.state;
       let newData = [name, ...data];
       this.setState({data: [...newData]}, function () {
@@ -76,7 +77,7 @@ export class Home extends PureComponent {
         console.log('data setelah add: ' + this.state.data);
       });
     } else {
-      alert('Isi nama dengan benar!');
+      alert('Kamu hanya bisa mengobrol dengan Fadil.');
     }
     this.setState({name: ''});
   }
@@ -182,9 +183,6 @@ export class Home extends PureComponent {
                     </View>
                     <Text>pesan terakhir</Text>
                   </TouchableOpacity>
-                  {/* MODAL CONTACT OPTION */}
-
-                  {/* END OF MODAL */}
                 </View>
               );
             })}

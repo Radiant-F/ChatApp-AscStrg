@@ -39,7 +39,10 @@ export class Login extends Component {
       this.state.pass == this.state.passAdmin
     ) {
       alert('Selamat Datang, ' + this.state.admin + '.');
-      this.props.navigation.navigate('HomeOri', {user: this.state.admin});
+      this.props.navigation.navigate('Drawer', {
+        screen: 'Home',
+        params: {user: this.state.admin},
+      });
       // this.setState({name: ''});
       // this.setState({pass: ''});
     } else if (
@@ -47,7 +50,10 @@ export class Login extends Component {
       this.state.pass == this.state.passUser
     ) {
       alert('Selamat Datang, ' + this.state.user + '.');
-      this.props.navigation.navigate('HomeOri', {user: this.state.user});
+      this.props.navigation.navigate('Drawer', {
+        screen: 'Home2',
+        params: {user: this.state.user},
+      });
       // this.setState({name: ''});
       // this.setState({pass: ''});
     } else {

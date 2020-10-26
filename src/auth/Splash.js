@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
-import Home from '../screens/Home';
 import Navigator from '../router/Navigator';
 
 export class Splash extends Component {

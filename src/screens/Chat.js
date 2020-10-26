@@ -32,15 +32,19 @@ export class Chat extends Component {
   }
 
   sendData() {
-    let newData = {
-      text: this.state.chatMessage,
-      sender: this.props.route.params.sender,
-    };
-    let data = [...this.state.chatMessages, newData];
-    this.setState({chatMessages: [...data]}, function () {
-      this.saveData();
-      this.setState({chatMessage: ''});
-    });
+    if (this.state.chatMessage != '') {
+      let newData = {
+        text: this.state.chatMessage,
+        sender: this.props.route.params.sender,
+      };
+      let data = [...this.state.chatMessages, newData];
+      this.setState({chatMessages: [...data]}, function () {
+        this.saveData();
+        this.setState({chatMessage: ''});
+      });
+    } else {
+      console.log('Pesan tidak boleh kosong.');
+    }
   }
 
   deleteData(index) {

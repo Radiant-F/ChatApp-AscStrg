@@ -15,7 +15,7 @@ export class Drawer extends Component {
       <View style={styles.viewMain}>
         <View style={styles.drawerHeader}>
           <Image source={pp} style={styles.pp} />
-          <Text style={styles.drawerText}>Radiant Fadilah</Text>
+          <Text style={styles.drawerText}>User</Text>
           <Text style={styles.drawerNumber}>+62 851 57439660</Text>
         </View>
         <View style={{flex: 1, padding: 15}}>
